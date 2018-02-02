@@ -37,4 +37,7 @@
         app:actionProviderClass=
         "android.support.v7.widget.ShareActionProvider"
         android:title="@string/share" />
+    <item android:id="@+id/action_extract_article"
+        app:showAsAction="never"
+        android:title="TEST Extract article" />
 </menu>

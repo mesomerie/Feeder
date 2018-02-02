@@ -32,6 +32,7 @@ import android.support.v4.content.Loader
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.ShareActionProvider
 import android.text.Spanned
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -48,6 +49,7 @@ import com.nononsenseapps.feeder.db.FeedItemSQL
 import com.nononsenseapps.feeder.db.URI_FEEDITEMS
 import com.nononsenseapps.feeder.db.asFeedItem
 import com.nononsenseapps.feeder.model.cancelNotificationInBackground
+import com.nononsenseapps.feeder.model.extractArticleText
 import com.nononsenseapps.feeder.ui.text.ImageTextLoader
 import com.nononsenseapps.feeder.ui.text.toSpannedWithNoImages
 import com.nononsenseapps.feeder.util.FileLog
@@ -58,7 +60,9 @@ import com.nononsenseapps.feeder.util.firstOrNull
 import com.nononsenseapps.feeder.util.markItemAsReadAndNotified
 import com.nononsenseapps.feeder.util.sloppyLinkToStrictURL
 import com.nononsenseapps.feeder.views.ObservableScrollView
+import com.nononsenseapps.jsonfeed.cachingHttpClient
 import kotlinx.coroutines.experimental.launch
+import okhttp3.Request
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 import java.util.*
@@ -86,6 +90,12 @@ class ReaderFragment : Fragment(), LoaderManager.LoaderCallbacks<Any?> {
     private var bodyTextView: TextView? = null
     private var scrollView: ObservableScrollView? = null
     private var titleTextView: TextView? = null
+
+    private var articleTextExtractorTask: ArticleTextExtractorTask? = null
+        set(value) {
+            field?.cancel(true)
+            field = value
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -218,6 +228,11 @@ class ReaderFragment : Fragment(), LoaderManager.LoaderCallbacks<Any?> {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onDestroy() {
+        articleTextExtractorTask?.cancel(true)
+        super.onDestroy()
+    }
+
     override fun onOptionsItemSelected(menuItem: MenuItem?): Boolean {
         val uri: Uri
         when (menuItem!!.itemId) {
@@ -249,6 +264,27 @@ class ReaderFragment : Fragment(), LoaderManager.LoaderCallbacks<Any?> {
                     FileLog.getInstance(activity!!).d("No such activity: " + e)
                 }
 
+                return true
+            }
+            R.id.action_extract_article -> {
+                articleTextExtractorTask = ArticleTextExtractorTask({
+                    Log.d("ArticleExtration", "Got a result, non-null? ${it != null}")
+                    if (it != null) {
+                        rssItem = rssItem?.copy(description = it)
+
+                        // Set without images as a place holder
+                        bodyTextView!!.text = toSpannedWithNoImages(activity!!, rssItem!!.description, rssItem!!.feedUrl)
+
+                        // Load images in text
+                        loaderManager.restartLoader(TEXT_LOADER, Bundle(), this@ReaderFragment)
+
+                        // And indicate result
+                        Toast.makeText(context, "Full text extraction success", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Full text extraction failed", Toast.LENGTH_SHORT).show()
+                    }
+                })
+                articleTextExtractorTask?.execute(rssItem)
                 return true
             }
             else -> return super.onOptionsItemSelected(menuItem)
@@ -322,6 +358,35 @@ class ReaderFragment : Fragment(), LoaderManager.LoaderCallbacks<Any?> {
 
             fragment.arguments = rssItem.asBundle()
             return fragment
+        }
+    }
+}
+
+class ArticleTextExtractorTask(onPost: ((String?) -> Unit)?) : LeakHandlingAsyncTask<FeedItemSQL, Void, String?>(onPost = onPost) {
+
+    override fun doInBackground(vararg rssItems: FeedItemSQL?): String? {
+        try {
+            Log.d("ArticleExtraction", "Fetching page...")
+            val rssItem: FeedItemSQL = rssItems.first() ?: return null
+            val client = cachingHttpClient()
+            val request = Request.Builder()
+                    .url(rssItem.link!!)
+                    .build()
+            val response = client.newCall(request).execute()
+            if (!response.isSuccessful) {
+                Log.d("ArticleExtraction", "Request was not successful: ${response.message()}")
+                return null
+            }
+            if (isCancelled) {
+                return null
+            }
+            Log.d("ArticleExtraction", "Extracting article...")
+            return response.body()?.source()?.inputStream()?.use {
+                extractArticleText(it, rssItem.plainsnippet)
+            }
+        } catch (e: Throwable) {
+            Log.e("ArticleExtraction", "Error in task: $e")
+            return null
         }
     }
 }
