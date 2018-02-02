@@ -37,12 +37,30 @@ private val NEGATIVE_STYLE = Regex("hidden|display: ?none|font-size: ?small")
 /**
  * @param input extracts article text from given html string. wasn't tested with improper HTML,
  * although jSoup should be able to handle minor stuff.
+ * @param plaintTextSnippet plaintext snippet of Feeditem. Will strip plain text representations of
+ * images and trim the text.
+ * @throws Exception if something else goes wrong
+ */
+@Throws(Exception::class)
+fun extractArticleText(input: InputStream, plaintTextSnippet: String): String? {
+    val indicator = plaintTextSnippet.split(Regex("\\[[^]]*]")).fold("") { acc, s ->
+        when (s.trim().length > acc.length) {
+            true -> s.trim()
+            false -> acc
+        }
+    }
+    return extractArticleTextWithIndicator(input, indicator)
+}
+
+/**
+ * @param input extracts article text from given html string. wasn't tested with improper HTML,
+ * although jSoup should be able to handle minor stuff.
  * @param contentIndicator a text which should be included into the extracted content, or null
  * @return extracted article, all HTML tags stripped, or NULL if parsing failed
  * @throws Exception if something else goes wrong
  */
 @Throws(Exception::class)
-fun extractArticleText(input: InputStream, contentIndicator: String): String? {
+private fun extractArticleTextWithIndicator(input: InputStream, contentIndicator: String): String? {
     val document: Document? = Jsoup.parse(input, null, "")
     if (document != null) {
         return extractContent(document, contentIndicator)
