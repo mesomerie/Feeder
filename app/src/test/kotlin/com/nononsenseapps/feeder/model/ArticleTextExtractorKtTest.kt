@@ -1,6 +1,5 @@
 package com.nononsenseapps.feeder.model
 
-import org.junit.Ignore
 import org.junit.Test
 import java.io.InputStream
 import kotlin.test.assertFalse
@@ -14,18 +13,20 @@ class ArticleTextExtractorKtTest {
         assert(fullArticle!!.startsWith("<div class=\"post-body entry-content\" id=\"post-body-1699731792956043249\" itemprop=\"articleBody\">"))
     }
 
-    @Ignore
     @Test
     fun testFzLeadingImage() {
         val fullArticle = extractArticleText(
                 getResourceAsStream("article_fz.html"),
                 "[IMG] \t\t\t\t\t \t\t\t\tEurogamers källor bekräf"
         )
+        assertTrue("Should contain end of article") {
+            fullArticle!!.contains("Varken Nintendo eller Bandai Namco har bekr&auml;ftat dessa rykten")
+        }
+        assertTrue("Should contain start of article") {
+            fullArticle!!.contains("Eurogamers k&auml;llor bekr&auml;ftar veckans rykten")
+        }
         assertFalse("Comment should not have been included") {
             fullArticle!!.contains("<div class=\"article-comments\">")
-        }
-        assertTrue("Top tag should be article") {
-            fullArticle!!.startsWith("<div class=\"article-body primary-content content-gutter cg-b\">")
         }
     }
 

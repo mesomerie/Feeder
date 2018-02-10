@@ -18,21 +18,21 @@ private val HEADERS = setOf("h1", "h2", "h3", "h4", "h5", "h6")
 private val INTERESTING_NODES = setOf("p", "div", "td", "h1", "h2", "article", "section")
 
 // Unlikely candidates
-private val UNLIKELY = Regex("com(bx|ment|munity)|dis(qus|cuss)|e(xtra|[-]?mail)|foot|"
+internal val UNLIKELY = Regex("com(bx|ment|munity)|dis(qus|cuss)|e(xtra|[-]?mail)|foot|"
         + "header|menu|re(mark|ply)|rss|sh(are|outbox)|sponsor"
         + "a(d|ll|gegate|ggregate|rchive|ttachment)|(pag(er|ination))|popup|print|"
         + "login|si(debar|gn|ngle)")
 
 // Most likely positive candidates
-private val POSITIVE = Regex("(^(body|content|h?entry|main|page|post|text|blog|story|haupt))"
+internal val POSITIVE = Regex("(^(body|content|h?entry|main|page|post|text|blog|story|haupt))"
         + "|arti(cle|kel)|instapaper_body")
 
 // Most likely negative candidates
-private val NEGATIVE = Regex("nav($|igation)|user|com(ment|bx)|(^com-)|contact|"
+internal val NEGATIVE = Regex("nav($|igation)|user|com(ment|bx)|(^com-)|contact|"
         + "foot|masthead|(me(dia|ta))|outbrain|promo|related|scroll|(sho(utbox|pping))|"
         + "sidebar|sponsor|tags|tool|widget|player|disclaimer|toc|infobox|vcard")
 
-private val NEGATIVE_STYLE = Regex("hidden|display: ?none|font-size: ?small")
+internal val NEGATIVE_STYLE = Regex("hidden|display: ?none|font-size: ?small")
 
 /**
  * @param input extracts article text from given html string. wasn't tested with improper HTML,
@@ -217,7 +217,7 @@ private fun prepareDocument(doc: Document) {
     doc.getElementsByTag("style").forEach { style -> style.remove() }
 }
 
-private fun getInterestingNodes(doc: Document): Set<Element> = doc
+internal fun getInterestingNodes(doc: Document): Set<Element> = doc
         .select("body")
         .select("*")
         .filter { INTERESTING_NODES.contains(it.tagName()) }
