@@ -49,7 +49,7 @@ fun extractArticleText(input: InputStream, plaintTextSnippet: String): String? {
             false -> acc
         }
     }
-    return extractArticleTextWithIndicator(input, indicator)
+    return extractArticleTextWithIndicator(input, indicator.take(40))
 }
 
 /**
