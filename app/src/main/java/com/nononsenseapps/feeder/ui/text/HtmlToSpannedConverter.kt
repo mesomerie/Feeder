@@ -450,7 +450,7 @@ open class HtmlToSpannedConverter(private var mSource: String,
             if (!TextUtils.isEmpty(f!!.mColor)) {
                 if (f.mColor.startsWith("@")) {
                     val res = Resources.getSystem()
-                    val name = f.mColor.substring(1)
+                    val name = f.mColor.takeLast(f.mColor.length - 1)
                     val colorRes = res.getIdentifier(name, "color", "android")
                     if (colorRes != 0) {
                         @Suppress("DEPRECATION")
