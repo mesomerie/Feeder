@@ -141,9 +141,9 @@ class GlideConverter(context: Context,
         var d: Drawable? = null
         try {
             // Source
-            val src = attributes.getValue("", "src")
-            val sWidth = attributes.getValue("", "width")
-            val sHeight = attributes.getValue("", "height")
+            val src: String? = attributes.getValue("", "src")
+            val sWidth: String? = attributes.getValue("", "width")
+            val sHeight: String? = attributes.getValue("", "height")
             // Image size
             var shrunk = false
             var hasSize = false
@@ -180,7 +180,7 @@ class GlideConverter(context: Context,
                 }
             }
 
-            val imgLink = relativeLinkIntoAbsolute(siteUrl, src)
+            val imgLink = relativeLinkIntoAbsolute(siteUrl, src ?: "")
 
             val g = GlideUtils.glideAsBitmap(context, imgLink, allowDownload)
             val b: Bitmap = if (shrunk || hasSize) {
