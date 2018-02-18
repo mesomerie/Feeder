@@ -144,7 +144,7 @@ private fun weightChildNodes(rootEl: Element, contentIndicator: String): Int {
         when (child.tagName()) {
             "h1", "h2" -> weight += 30
             "div", "p" -> {
-                weight += calcWeightForChild(ownText)
+                weight += ownText.length / 25
                 if (child.tagName() == "p" && textLength > 50) {
                     pEls.add(child)
                 }
@@ -160,8 +160,6 @@ private fun weightChildNodes(rootEl: Element, contentIndicator: String): Int {
 
     return weight
 }
-
-private fun calcWeightForChild(text: String): Int = text.length / 25
 
 private fun calcWeight(e: Element): Int {
     var weight = 0
