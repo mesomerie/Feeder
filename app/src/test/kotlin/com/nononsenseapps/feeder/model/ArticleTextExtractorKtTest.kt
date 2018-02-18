@@ -106,6 +106,23 @@ class ArticleTextExtractorKtTest {
         }
     }
 
+    @Test
+    fun testDividendGrowthInvestor() {
+        val fullArticle = extractArticleText(
+                getResourceAsStream("article_dividendgrowthinvestor.html"),
+                "Good Morning, I wanted to share the market commentary from a dividend growth investor friend of mine, who manages money. This is not a paid post, and I do not receive any compensation from him. Rather, I have interacted"
+        )
+        val plain = Jsoup.parse(fullArticle).body().text().trim()
+        assertTrue("Should end with end of article") {
+            plain.endsWith("Have a great weekend!")
+        }
+        assertTrue("Should start with start of article") {
+            plain.startsWith("Good Morning, I wanted to share the market commentary from a dividend growth investor friend of mine")
+        }
+    }
+        }
+    }
+
     private fun getResourceAsStream(filename: String): InputStream =
             javaClass.getResourceAsStream(filename)
 }
