@@ -76,6 +76,21 @@ class ArticleTextExtractorKtTest {
         }
     }
 
+    @Test
+    fun testPhoronix() {
+        val fullArticle = extractArticleText(
+                getResourceAsStream("article_phoronix.html"),
+                "Landing in FreeBSD today was the mitigation work for the Meltdown and Spectre CPU vulnerabilities..."
+        )
+        val plain = Jsoup.parse(fullArticle).body().text().trim()
+        assertTrue("Should end with end of article") {
+            plain.endsWith("if they end up shipping a new stable point release soon.")
+        }
+        assertTrue("Should start with start of article") {
+            plain.startsWith("Landing in FreeBSD today was the mitigation work for the")
+        }
+    }
+
     private fun getResourceAsStream(filename: String): InputStream =
             javaClass.getResourceAsStream(filename)
 }

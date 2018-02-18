@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <title>FreeBSD Finally Gets Mitigated For Spectre &amp; Meltdown - Phoronix</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="phxcms-css/phoronix-10.css?2016">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <link href="phxcms7-css/shadowbox.css" rel="stylesheet" type="text/css" />
+    <script src="phxcms7-css/shadowbox.js" type="text/javascript"></script>
+    <meta name="keywords" content="Phoronix, Linux Hardware Reviews, Linux hardware benchmarks, Linux Hardware, Linux benchmarking, Desktop Linux, GNU/Linux benchmarks, Open Source AMD, Linux How To, X.Org drivers, Ubuntu hardware, Phoronix Test Suite" />
+    <meta name="Description" content="Phoronix is the leading technology website for Linux hardware reviews, open-source news, Linux benchmarks, open-source benchmarks, and computer hardware tests." />
+    <link rel="alternate" type="application/rss+xml" title="Phoronix" href="rss.php" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png" />
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
+    <!-- PHXCMS-11 (phoronix.com) -->
+    <script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-1978569-1']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+
+		    Shadowbox.init({
+		       skipSetup: true
+		   });
+		</script>
+</head>
+<body style="overflow: initial !important;">
+<div id="headerwrap">
+    <div class="wcontainer defpadding">
+        <a href="?page=home"><img id="logo" alt="Phoronix" src="/phxcms7-css/phoronix.png" style="height: 40px; margin-top: 5px;margin-left: 5px;" /></a>
+        <div id="headerright">
+            <div id="social">
+                <a href="https://www.phoronix.com/rss.php" class="icon-rss"></a>
+                <a href="https://www.google.com/+phoronix" class="icon-gplus"></a>
+                <a href="https://twitter.com/Phoronix" class="icon-twitter"></a>
+                <a href="https://www.facebook.com/Phoronix" class="icon-facebook"></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="litemenu">
+    <ul>
+        <li><a href="?page=phoronix_articles">Articles &amp; Reviews</a></li>
+        <li><a href="?page=phoronix_news">News Archive</a></li>
+        <li><a href="https://www.phoronix.com/forums/">Forums</a></li>
+        <li><a href="?page=phoronix_premium">Premium</a></li>		        <li class="categ icon-angle-circled-down"><span> Categories</span></li>
+        <li><a href="?page=category&amp;item=Computers">Computers</a></li>
+        <li><a href="?page=category&amp;item=Display+Drivers">Display Drivers</a></li>
+        <li><a href="?page=category&amp;item=Graphics+Cards">GPUs / Graphics Cards</a></li>
+        <li><a href="?page=category&amp;item=Linux+Gaming">Linux Gaming</a></li>
+        <li><a href="?page=category&amp;item=Memory">Memory</a></li>
+        <li><a href="?page=category&amp;item=Motherboards">Motherboards</a></li>
+        <li><a href="?page=category&amp;item=Processors">CPUs / Processors</a></li>
+        <li><a href="?page=category&amp;item=Software">Software</a></li>
+        <li><a href="?page=category&amp;item=Storage">Storage</a></li>
+        <li><a href="?page=category&amp;item=Operating+Systems">Operating Systems</a></li>
+        <li><a href="?page=category&amp;item=Peripherals">Peripherals</a></li>
+        <li id="closelid">Close</li>
+    </ul>
+</div>
+<div id="menuwrap">
+    <div class="wcontainer">
+        <ul id="linklist">
+            <li id="menubutton"><span class="icon-menu"></span>
+            </li>
+            <li class="menulink">
+                <a class="linknode" href="?page=phoronix_articles">Articles &amp; Reviews</a>
+            </li>
+            <li class="menulink">
+                <a class="linknode" href="?page=phoronix_news">News Archive</a>
+            </li>
+            <li class="menulink">
+                <a class="linknode" href="https://www.phoronix.com/forums/">Forums</a>
+            </li>
+            <li class="menulink">
+                <a class="linknode" href="?page=phoronix_premium">Premium</a>
+            </li>					<li id="categories-link" class="menulink">
+            <span class="menunolink icon-angle-circled-down"> Categories</span>
+            <div id="categories-list">
+                <div id="categories-content">
+                    <a href="?page=category&amp;item=Computers">Computers</a>
+                    <a href="?page=category&amp;item=Graphics+Cards">GPUs / Graphics Cards</a>
+                    <a href="?page=category&amp;item=Linux+Gaming">Linux Gaming</a>
+                    <a href="?page=category&amp;item=Memory">Memory</a>
+                    <a href="?page=category&amp;item=Motherboards">Motherboards</a>
+                    <a href="?page=category&amp;item=Processors">CPUs / Processors</a>
+                    <a href="?page=category&amp;item=Software">Software</a>
+                    <a href="?page=category&amp;item=Storage">Storage</a>
+                    <a href="?page=category&amp;item=Operating+Systems">Operating Systems</a>
+                    <a href="?page=category&amp;item=Peripherals">Peripherals</a>
+                </div>
+            </div>
+        </li>
+            <li id="searchbox">
+                <div id="search">
+                    <form action="https://www.google.com" id="cse-search-box" target="_blank">
+                        <div>
+                            <input type="hidden" name="cx" value="partner-pub-0253814508491313:1305299758" />
+                            <input type="hidden" name="ie" value="UTF-8" />
+                            <input type="text" name="q" />
+                            <input type="submit" name="sa" value="Search" />
+                        </div>
+                    </form>
+
+                    <script type="text/javascript" src="https://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="content-bg">
+    <div id="content">
+        <script type="text/javascript">
+  window.onload = function() {
+    setTimeout(function() {
+if(typeof aax_getad_mpb === 'undefined')
+{
+	document.getElementById("9fc9e").style.display = 'block';
+}
+ }, 1000);
+  };
+</script>
+        <strong id="9fc9e" style="display: none; border: 1px solid #efefef; font-size: 11.5px; margin: 9px;"><strong style="font-weight: 800;">We Rely On Your Support:</strong>  This site is primarily supported by advertisements. <span style="font-weight: 600;">Ads are what have allowed this site to be maintained for the past 14 years.</span> We do our best to ensure only clean, relevant ads are shown, when any nasty ads are detected, we work to remove them ASAP. If you would like to view the site without ads while still supporting our work, <span style="font-weight: 600;">please consider <a href="http://www.phoronix.com/scan.php?page=phoronix_premium">our ad-free Phoronix Premium</a></span>. You can also consider <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3778540">a tip via PayPal</a>.</strong>
+        <div id="main-wrap">
+            <div id="main">
+                <div style="text-align: center; overflow: hidden; margin-bottom: 30px;">
+                    <script type='text/javascript' src='https://www.googletagservices.com/tag/js/gpt.js'>
+		googletag.pubads().definePassback('8456/IDG.Phoronix.com_Homepage', [[728,90]]).display();
+	</script>
+
+                </div>
+                <!-- google_ad_section_start -->
+                <article class="full">
+                    <header>FreeBSD Finally Gets Mitigated For Spectre &amp; Meltdown</header>
+                    <div class="author">Written by <a href="?page=michaellarabel">Michael Larabel</a> in <a href="?page=news_topic&amp;q=BSD">BSD</a> on 17 February 2018 at 04:13 PM EST. <a href="/forums/node/1008411">28 Comments</a></div>
+                    <div class="content">
+                        <div style="float: left; padding: 0 10px 10px;"><img alt="BSD -- " src="assets/categories/bsd.jpg" width="100" height="100" /></div>
+                        Landing in FreeBSD today was the mitigation work for the Meltdown and Spectre CPU vulnerabilities.
+                        <br />
+                        <br />It's taken a few more weeks longer than most of the Linux distributions to be re-worked for Spectre/Meltdown mitigation as well as DragonFlyBSD, but with FreeBSD Revision 329462 it appears their initial fixes are in place.
+                        <br />
+                        <br />There is Meltdown mitigation for Intel CPUs via a KPTI implementation similar to Linux, the Kernel Page Table Isolation. There is also a PCID (Process Context Identifier) optimization for Intel Westmere CPUs and newer, just as was also done on Linux.
+                        <br />
+                        <br />For their Spectre mitigation they are currently making use of IBRS: Indirect Branch Restricted Speculation. The IBRS feature just as with Linux requires support from the CPU microcode and is for mitigating the Variant Two vulnerability as an alternative to Retpolines.
+                        <br /><p align="center"><a href="//www.phoronix.com/image-viewer.php?id=2018&image=freebsd_spectre_meltdown_lrg" target="_blank"><img src="//www.phoronix.net/image.php?id=2018&image=freebsd_spectre_meltdown_med" /></a></p>
+                        <br />Their stable 11 code can be found <a href="https://svnweb.freebsd.org/base?view=revision&revision=329462">here</a>. Given the severity of Spectre and Meltdown, I wouldn't be surprised if they end up shipping a new stable point release soon.</div>
+                    <div style="text-align: center; overflow: hidden; margin-bottom: 30px;">
+                        <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+                        <script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+                        <div id='div-pg-ad-1506416552-3'>
+                            <script type='text/javascript'>
+        googletag.cmd.push(function() { googletag.pubads().display('/8095840/.2_6876.3_phoronix.com_tier1', [728, 90], 'div-pg-ad-1506416552-3'); });
+  </script>
+                        </div>
+                    </div>
+                    <div class="foot">
+                        <div class="pagination">
+                        </div>
+                        <div class="comments-label">
+                            <a href="/forums/node/1008411">28 Comments</a>								</div>
+                    </div>
+                </article>
+                <div id="sharebar">
+                    <div style="margin: 0 10px 10px; overflow: hidden;"><div style="float: left; overflow: hidden;"><div class="g-plus" data-action="share" data-annotation="bubble" data-height="15" data-href="http://www.phoronix.com/scan.php?page=news_item&amp;px=FreeBSD-Spectre-Meltdown-Fix"></div><script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+                        <div style="float: left; overflow: hidden;"><a href="https://twitter.com/share" class="twitter-share-button" data-text="FreeBSD Finally Gets Mitigated For Spectre &amp; Meltdown" data-url="http://www.phoronix.com/scan.php?page=news_item&amp;px=FreeBSD-Spectre-Meltdown-Fix" data-via="phoronix" data-related="michaellarabel">Tweet</a>
+                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div>
+
+                        <div style="float: left; overflow: hidden;"><iframe src="//www.facebook.com/plugins/like.php?href=http://www.phoronix.com/scan.php%3Fpage%3Dnews_item%26amp%3Bpx%3DFreeBSD-Spectre-Meltdown-Fix&amp;width=200&amp;height=46&amp;colorscheme=light&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;send=true" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:200px; height:46px;" allowTransparency="true"></iframe></div>
+                    </div></div>
+                <div class="after-article">
+                    <div style="text-align: center; overflow: hidden; margin: 5px;">
+                        <p align="center"><script type="text/javascript"><!--
+	e9 = new Object();
+    e9.size = "728x90";
+//--></script>
+                            <script type="text/javascript" src="//tags.expo9.exponential.com/tags/Phoronixcom/ROS/tags.js"></script></p>
+                    </div>
+                    <div id="about-author">
+                        <header>About The Author</header>
+                        <img class="pic" src="/assets/categories/michaellarabel.jpg" alt="Author picture"/>
+                        <div class="text"><p>Michael Larabel is the principal author of Phoronix.com and founded the site in 2004 with a focus on enriching the Linux hardware experience. Michael has written more than 10,000 articles covering the state of Linux hardware support, Linux performance, graphics drivers, and other topics. Michael is also the lead developer of the Phoronix Test Suite, Phoromatic, and OpenBenchmarking.org automated benchmarking software. He can be followed via <a href="http://twitter.com/MichaelLarabel">Twitter</a> or contacted via <a href="http://www.michaellarabel.com/">MichaelLarabel.com</a>.</p></div>
+                    </div>
+                    <div class="article-box">
+                        <header>Related BSD News</header>
+                        <div class="node"><a href="?page=news_item&amp;px=DragonFlyBSD-Ptr-Restrict">DragonFlyBSD Adds New &quot;Ptr_Restrict&quot; Security Option</a></div><div class="node"><a href="?page=news_item&amp;px=NetBSD-SVS-Meltdown">NetBSD Has SVS To Mitigate Meltdown, Still Working On Spectre</a></div><div class="node"><a href="?page=news_item&amp;px=OPNsense-18.1-Released">OPNsense 18.1 BSD Firewall/Network OS Released</a></div><div class="node"><a href="?page=news_item&amp;px=Ryzen-BSD-Lock-Ups-2018">Some FreeBSD Users Are Still Running Into Random Lock-Ups With Ryzen</a></div><div class="node"><a href="?page=news_item&amp;px=OPNsense-18.1-RC1-Released">FreeBSD-Powered OPNsense 18.1-RC1 Released</a></div><div class="node"><a href="?page=news_item&amp;px=DragonFly-BSD-Spectre-Fix">DragonFlyBSD Posts Initial Kernel Fix For Spectre</a></div>
+
+                    </div>
+                    <div class="article-box">
+                        <header>Popular News</header>
+                        <div class="node"><a href="?page=news_item&amp;px=VLC-3.0-Released">VLC 3.0 Released</a></div><div class="node"><a href="?page=news_item&amp;px=Core-i9-Threadripper-Linux-4.15">Core i9 7980XE vs. Threadripper 1950X On Linux 4.15 With Ubuntu 18.04</a></div><div class="node"><a href="?page=news_item&amp;px=GNOME-Alt-Tab-Quit">GNOME Shell Gets macOS-Like Ability To Close Apps From The Alt-Tab Switcher</a></div><div class="node"><a href="?page=news_item&amp;px=GNOME-3.28-Beta-Released">GNOME 3.28 Beta Released With Many Improvements</a></div><div class="node"><a href="?page=news_item&amp;px=Raven-Ridge-Desktop-Tomorrow">Raven Ridge Desktop APUs Come Out Tomorrow, The Likely Linux Requirements</a></div><div class="node"><a href="?page=news_item&amp;px=Steam-Audio-TrueAudio-Next">Steam Audio 2.0 Adds AMD TrueAudio Next Support</a></div>
+                    </div>		</div>
+                <!-- google_ad_section_end -->
+            </div>
+        </div>
+        <div id="sidebar-wrap">
+            <div id="sidebar">
+                <aside>
+                    <div style="text-align: center;">
+                        <script type='text/javascript' src='https://www.googletagservices.com/tag/js/gpt.js'>
+		googletag.pubads().definePassback('8456/IDG.Phoronix.com_Homepage', [[300,250]]).display();
+	</script>
+                    </div>
+                </aside>
+                <aside class="widget">
+                    <header>Latest Linux News</header><div class="popular-list">
+                    <a href="?page=news_item&amp;px=FreeBSD-Spectre-Meltdown-Fix">FreeBSD Finally Gets Mitigated For Spectre &amp; Meltdown</a>
+                </div>
+                    <div class="popular-list">
+                        <a href="?page=news_item&amp;px=RadeonSI-32-bit-Pointers-Lands">Mesa Git Lands RadeonSI 32-bit Pointers Support</a>
+                    </div>
+                    <div class="popular-list">
+                        <a href="?page=news_item&amp;px=Wine-Staging-No-More">Wine-Staging Will No Longer Be Putting Out New Releases</a>
+                    </div>
+                    <div class="popular-list">
+                        <a href="?page=news_item&amp;px=Linux-4.14-4.15-ARM64-KPTI">Linux 4.14 &amp; 4.15 Get KPTI Protection For 64-bit ARM</a>
+                    </div>
+                    <div class="popular-list">
+                        <a href="?page=news_item&amp;px=VESA-Xorg-DDX-240">VESA X.Org Driver Sees First Update In Three Years</a>
+                    </div>
+                    <div class="popular-list">
+                        <a href="?page=news_item&amp;px=Go-1.10-Released">Golang 1.10 Offers Many Smaller Changes, Restores NetBSD Support</a>
+                    </div>
+                    <div class="popular-list">
+                        <a href="?page=news_item&amp;px=Wine-3.2-Is-Here">Wine 3.2 Released With HID Gamepad Support, D3D Multi-Sample Textures</a>
+                    </div>
+                    <div class="popular-list">
+                        <a href="?page=news_item&amp;px=Icelake-ANV-Vulkan-Started">Initial Intel Icelake Support Lands In Mesa OpenGL Driver, Vulkan Support Started</a>
+                    </div>
+                    <div class="popular-list">
+                        <a href="?page=news_item&amp;px=Khronos-glTF-Draco-Compression">Khronos Adds Draco Geometry Compression To glTF 2.0</a>
+                    </div>
+                    <div class="popular-list">
+                        <a href="?page=news_item&amp;px=Intel-New-Compute-Runtime">Intel Open-Sources LLVM Graphics Compiler, Compute Runtime With OpenCL 2.1+</a>
+                    </div>
+                </aside>
+                <aside>
+                    <div style="text-align: center;">
+                        <script type="text/javascript"><!--
+	e9 = new Object();
+    e9.size = "300x250,160x600,300x600";
+//--></script>
+                        <script type="text/javascript" src="https://tags.expo9.exponential.com/tags/Phoronixcom/ROS/tags.js"></script>
+                    </div>
+                </aside>
+
+                <aside class="widget">
+                    <header>Latest Featured Articles</header><div class="popular-list">
+                    <a href="/vr.php?view=26021">AMD Raven Ridge Graphics On Linux vs. Lower-End NVIDIA / AMD GPUs</a>
+                </div>
+                    <div class="popular-list">
+                        <a href="/vr.php?view=26019">AMD Vega 8 Graphics Performance On Linux With The Ryzen 3 2200G</a>
+                    </div>
+                    <div class="popular-list">
+                        <a href="/vr.php?view=26015">AMD Ryzen 3 2200G + Ryzen 5 2400G Linux CPU Performance, 21-Way Intel/AMD Comparison</a>
+                    </div>
+                    <div class="popular-list">
+                        <a href="/vr.php?view=26011">Ryzen 5 2400G Radeon Vega Linux OpenGL/Vulkan Gaming Benchmarks</a>
+                    </div>
+                    <div class="popular-list">
+                        <a href="/vr.php?view=26010">RADV Radeon Vulkan Driver Is Still A Better Bet Than AMDVLK In February 2018</a>
+                    </div>
+                </aside>
+                <aside>
+                    <div style="text-align: center;">
+                        <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+                        <script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+                        <div id='div-pg-ad-1506416552-2'>
+                            <script type='text/javascript'>
+        googletag.cmd.push(function() { googletag.pubads().display('/8095840/.2_6875.7_phoronix.com_tier1', [300, 600], 'div-pg-ad-1506416552-2'); });
+  </script>
+                        </div>
+
+                    </div>
+                </aside>
+                <aside class="widget">
+                    <header>Support Phoronix</header>
+                    <p>The mission at Phoronix since 2004 has centered around enriching the Linux hardware experience. In addition to supporting our site through advertisements, you can help by <a href="?page=phoronix_premium">subscribing to Phoronix Premium</a>. You can also use our <a href="http://www.tkqlhce.com/click-3677526-10515887-1435708588000">NewEgg.com</a> shopping links when making online purchases or contribute to Phoronix through a <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3778540">PayPal tip</a>.</p>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer">
+    <div id="footer-content">
+        <p align="center"></p>
+        <div id="footer-left">
+            <div id="footer-left-content">
+                <div class="extra-info">
+                    <header>Phoronix Media</header>
+                    <hr/>
+                    <ul>
+                        <li><a href="http://www.phoronix-test-suite.com/">Phoronix Test Suite</a></li>
+                        <li><a href="http://openbenchmarking.org/">OpenBenchmarking.org</a></li>
+                        <li><a href="http://www.phoromatic.com/">Phoromatic</a></li>
+                        <li><a href="http://www.linuxbenchmarking.com/">LinuxBenchmarking.com</a></li>
+                    </ul>
+                </div>
+                <div class="extra-info">
+                    <header>Phoronix Premium</header>
+                    <hr/>
+                    <a href="?page=phoronix_premium"><ul>
+                        <li>Support Phoronix</li>
+                        <li>While Having Ad-Free Browsing,</li>
+                        <li>Single-Page Article Viewing</li>
+                    </ul></a>
+                </div>
+                <div class="extra-info">
+                    <header>Share</header>
+                    <hr/>
+                    <ul>
+                        <li><a href="https://facebook.com/Phoronix">Facebook</a></li>
+                        <li><a href="https://twitter.com/Phoronix">Twitter</a></li>
+                        <li><a href="https://www.google.com/+phoronix">Google Plus</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="footer-right">
+            <div class="extra-info">
+                <ul>
+                    <li><p><a href="http://www.phoronix-media.com/?k=legal">Legal Disclaimer</a> | <a href="http://www.phoronix-media.com/?k=contact">Contact</a> | <a href="?page=cookies">Cookie Policy</a></p></li>
+                    <li><p>Copyright &copy; 2004 - 2018 by <a href="http://www.phoronix-media.com/">Phoronix Media</a>.</p></li>
+                    <li><p>All trademarks used are properties of their respective owners. All rights reserved.</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+		    function lmm () {
+		        if (litemenu.style.zIndex > 0)
+		            litemenu.style.zIndex = -1;
+		        else
+		            litemenu.style.zIndex = 1;
+		    }
+
+            menubutton.addEventListener('click', function() { lmm(); }, false);
+            closelid.addEventListener('click', function() { litemenu.style.zIndex = -1;}, false);
+		</script>
+</body>
+</html>
