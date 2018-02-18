@@ -136,6 +136,17 @@ class ArticleTextExtractorKtTest {
         }
     }
 
+    @Test
+    fun testGminadebno() {
+        val fullArticle = extractArticleText(
+                getResourceAsStream("article_gminadebno.html"),
+                "..."
+        )
+        assertTrue("Should capture the right tag") {
+            fullArticle!!.startsWith("<div id=\"content_summary\">")
+        }
+    }
+
     private fun getResourceAsStream(filename: String): InputStream =
             javaClass.getResourceAsStream(filename)
 }
