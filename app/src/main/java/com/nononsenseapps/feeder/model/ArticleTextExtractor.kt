@@ -123,7 +123,6 @@ private fun getWeight(e: Element, contentIndicator: String): Int {
  */
 private fun weightChildNodes(rootEl: Element, contentIndicator: String): Int {
     var weight = 0
-    var caption: Element? = null
     val pEls = mutableListOf<Element>()
     for (child in rootEl.children()) {
         val text = child.text()
@@ -149,17 +148,8 @@ private fun weightChildNodes(rootEl: Element, contentIndicator: String): Int {
                 if (child.tagName() == "p" && textLength > 50) {
                     pEls.add(child)
                 }
-
-                if (child.className().toLowerCase() == "caption") {
-                    caption = child
-                }
             }
         }
-    }
-
-    // use caption and image
-    if (caption != null) {
-        weight += 30
     }
 
     if (pEls.size >= 2) {
