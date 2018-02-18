@@ -91,6 +91,21 @@ class ArticleTextExtractorKtTest {
         }
     }
 
+    @Test
+    fun testJapanTimes() {
+        val fullArticle = extractArticleText(
+                getResourceAsStream("article_japantimes.html"),
+                "Sticking to its neutrality policy, the Internatioal Olympic Committee will help North Korean athletes participate in the 2020 Tokyo Olympics, too, IOC president Thomas Bach ..."
+        )
+        val plain = Jsoup.parse(fullArticle).body().text().trim()
+        assertTrue("Should end with end of article") {
+            plain.endsWith("merchandising revenue is also “promising to be higher than budgeted.”")
+        }
+        assertTrue("Should start with start of article") {
+            plain.startsWith("PYEONGCHANG, SOUTH KOREA – The International Olympic Committee will facilitate")
+        }
+    }
+
     private fun getResourceAsStream(filename: String): InputStream =
             javaClass.getResourceAsStream(filename)
 }
