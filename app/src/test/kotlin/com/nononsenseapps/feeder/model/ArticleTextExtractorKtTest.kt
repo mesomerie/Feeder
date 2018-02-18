@@ -120,6 +120,19 @@ class ArticleTextExtractorKtTest {
             plain.startsWith("Good Morning, I wanted to share the market commentary from a dividend growth investor friend of mine")
         }
     }
+
+    @Test
+    fun testNpr() {
+        val fullArticle = extractArticleText(
+                getResourceAsStream("article_npr.html"),
+                "The school shooting in Parkland, Fla., has children all over the country asking difficult questions. Here are a few tips for their parents and teachers."
+        )
+        val plain = Jsoup.parse(fullArticle).body().text().trim()
+        assertTrue("Should end with end of article") {
+            plain.endsWith("We'd like to hear from you. Send us an email to npred@npr.org.")
+        }
+        assertTrue("Should start with start of article") {
+            plain.startsWith("Enlarge this image")
         }
     }
 
