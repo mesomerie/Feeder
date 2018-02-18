@@ -102,9 +102,9 @@ private fun extractContent(doc: Document, contentIndicator: String): String? {
  * @param contentIndicator a text which should be included into the extracted content, or null
  */
 private fun getWeight(e: Element, contentIndicator: String): Int {
-    var weight = calcWeight(e)
+    var weight = calcWeight(e, contentIndicator)
     weight += Math.round(e.ownText().length / 100.0 * 10).toInt()
-    weight += weightChildNodes(e, contentIndicator)
+    weight += weightChildNodes(e)
     return weight
 }
 
@@ -119,9 +119,8 @@ private fun getWeight(e: Element, contentIndicator: String): Int {
  * increasing probability of the correct extraction.
  *
  * @param rootEl           Element, who's child nodes will be weighted
- * @param contentIndicator a text which should be included into the extracted content
  */
-private fun weightChildNodes(rootEl: Element, contentIndicator: String): Int {
+private fun weightChildNodes(rootEl: Element): Int {
     var weight = 0
     val pEls = mutableListOf<Element>()
     for (child in rootEl.children()) {
@@ -129,10 +128,6 @@ private fun weightChildNodes(rootEl: Element, contentIndicator: String): Int {
         val textLength = text.length
         if (textLength < 20) {
             continue
-        }
-
-        if (text.contains(contentIndicator)) {
-            weight += 100 // We certainly found the item
         }
 
         val ownText = child.ownText()
@@ -161,7 +156,7 @@ private fun weightChildNodes(rootEl: Element, contentIndicator: String): Int {
     return weight
 }
 
-private fun calcWeight(e: Element): Int {
+private fun calcWeight(e: Element, contentIndicator: String): Int {
     var weight = 0
     if (POSITIVE.containsMatchIn(e.className())) {
         weight += 35
@@ -191,6 +186,11 @@ private fun calcWeight(e: Element): Int {
     if (style != null && !style.isEmpty() && NEGATIVE_STYLE.containsMatchIn(style)) {
         weight -= 50
     }
+
+    if (e.text().contains(contentIndicator)) {
+        weight += 100 // We certainly found the item
+    }
+
     return weight
 }
 
