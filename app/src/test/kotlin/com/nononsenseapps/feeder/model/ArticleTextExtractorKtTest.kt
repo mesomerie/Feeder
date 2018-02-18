@@ -61,6 +61,21 @@ class ArticleTextExtractorKtTest {
         }
     }
 
+    @Test
+    fun testSweClockers() {
+        val fullArticle = extractArticleText(
+                getResourceAsStream("article_sweclockers.html"),
+                "AMD:s nylanserade Raven Ridge saknar fastlödd värmespridare, vilket väckt spekulationer gällande Ryzen 2. Nu meddelar dock företaget att detta inte gäller framtida generationer."
+        )
+        val plain = Jsoup.parse(fullArticle).body().text().trim()
+        assertTrue("Should end with end of article") {
+            plain.endsWith("Lanseringen sker i april och produkterna ska då ersätta den nuvarande Ryzen 1000-serien.")
+        }
+        assertTrue("Should start with start of article") {
+            plain.startsWith("För första gången på flera år har processormarknaden")
+        }
+    }
+
     private fun getResourceAsStream(filename: String): InputStream =
             javaClass.getResourceAsStream(filename)
 }
