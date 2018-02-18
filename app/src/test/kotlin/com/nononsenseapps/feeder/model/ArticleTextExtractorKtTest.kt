@@ -46,6 +46,21 @@ class ArticleTextExtractorKtTest {
         }
     }
 
+    @Test
+    fun testLibreElec() {
+        val fullArticle = extractArticleText(
+                getResourceAsStream("article_libreelec.html"),
+                "LibreELEC 8.2.3 is released to change our embedded pastebin provider from sprunge.us (RIP) to ix.io (working) so users can continue to submit logs"
+        )
+        val plain = Jsoup.parse(fullArticle).body().text().trim()
+        assertTrue("Should end with end of article") {
+            plain.endsWith("Click to share on Reddit (Opens in new window)")
+        }
+        assertTrue("Should start with start of article") {
+            plain.startsWith("LibreELEC 8.2.3 is released to change our embedded pastebin")
+        }
+    }
+
     private fun getResourceAsStream(filename: String): InputStream =
             javaClass.getResourceAsStream(filename)
 }
