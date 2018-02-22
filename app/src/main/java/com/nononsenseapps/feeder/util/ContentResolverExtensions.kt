@@ -147,9 +147,10 @@ fun ContentResolver.setNotify(feedId: Long, notify: Boolean = true) {
     panicIfOnUiThread()
     if (notify) {
         // First mark all existing as notified so we don't spam
-        updateFeedItems(where = "$COL_FEED IS ? AND $COL_NOTIFIED IS 0",
+        // FOR TESTING I HAVE FLIPPED THIS
+        updateFeedItems(where = "$COL_FEED IS ? AND $COL_NOTIFIED IS 1",
                 params = arrayListOf(feedId)) {
-            setInt(COL_NOTIFIED to 1)
+            setInt(COL_NOTIFIED to 0)
         }
     }
     // Now toggle notifications
@@ -162,9 +163,10 @@ fun ContentResolver.setNotify(tag: String, notify: Boolean = true) {
     panicIfOnUiThread()
     if (notify) {
         // First mark all existing as notified so we don't spam
-        updateFeedItems(where = "$COL_TAG IS ? AND $COL_NOTIFIED IS 0",
+        // FOR TESTING I HAVE FLIPPED THIS
+        updateFeedItems(where = "$COL_TAG IS ? AND $COL_NOTIFIED IS 1",
                 params = arrayListOf(tag)) {
-            setInt(COL_NOTIFIED to 1)
+            setInt(COL_NOTIFIED to 0)
         }
     }
     // Now toggle notifications
@@ -177,8 +179,9 @@ fun ContentResolver.setNotifyOnAllFeeds(notify: Boolean = true) {
     panicIfOnUiThread()
     if (notify) {
         // First mark all existing as notified so we don't spam
-        updateFeedItems(where = "$COL_NOTIFIED IS 0") {
-            setInt(COL_NOTIFIED to 1)
+        // FOR TESTING I HAVE FLIPPED THIS
+        updateFeedItems(where = "$COL_NOTIFIED IS 1") {
+            setInt(COL_NOTIFIED to 0)
         }
     }
     // Now toggle notifications
