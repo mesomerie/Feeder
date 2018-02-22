@@ -15,6 +15,7 @@ import com.nononsenseapps.feeder.db.COL_NOTIFIED
 import com.nononsenseapps.feeder.db.COL_NOTIFY
 import com.nononsenseapps.feeder.db.COL_UNREAD
 import com.nononsenseapps.feeder.db.FeedItemSQL
+import com.nononsenseapps.feeder.ui.EXTRA_FEEDITEMS_TO_MARK_AS_NOTIFIED
 import com.nononsenseapps.feeder.ui.FeedActivity
 import com.nononsenseapps.feeder.ui.ReaderActivity
 import com.nononsenseapps.feeder.util.getFeedItems
@@ -68,6 +69,7 @@ private fun singleNotification(context: Context, item: FeedItemSQL): Notificatio
             .setContentTitle(title)
             .setContentIntent(PendingIntent.getActivity(context, 0, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT))
+            .setDeleteIntent(getDeleteIntent(context, listOf(item)))
 
     if (item.enclosurelink != null) {
         builder.addAction(R.drawable.ic_action_av_play_circle_outline,
@@ -87,7 +89,7 @@ private fun singleNotification(context: Context, item: FeedItemSQL): Notificatio
 private fun manyNotification(context: Context, feedItems: List<FeedItemSQL>): Notification {
     val style = NotificationCompat.InboxStyle()
     val title = context.getString(R.string.updated_feeds)
-    val text = feedItems.map { "${it.feedtitle} \u2014 ${it.plaintitle}" }.joinToString(separator = "\n")
+    val text = feedItems.joinToString(separator = "\n") { "${it.feedtitle} \u2014 ${it.plaintitle}" }
 
     style.setBigContentTitle(title)
     feedItems.forEach {
@@ -95,6 +97,7 @@ private fun manyNotification(context: Context, feedItems: List<FeedItemSQL>): No
     }
 
     val intent = Intent(context, FeedActivity::class.java)
+    intent.putExtra(EXTRA_FEEDITEMS_TO_MARK_AS_NOTIFIED, LongArray(feedItems.size, { i ->  feedItems[i].id }))
 
     val builder = notificationBuilder(context)
 
@@ -102,9 +105,20 @@ private fun manyNotification(context: Context, feedItems: List<FeedItemSQL>): No
             .setContentTitle(title)
             .setContentIntent(PendingIntent.getActivity(context, 0, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT))
+            .setDeleteIntent(getDeleteIntent(context, feedItems))
 
     style.setBuilder(builder)
     return style.build()
+}
+
+private fun getDeleteIntent(context: Context, feedItems: List<FeedItemSQL>): PendingIntent {
+    val intent = Intent(context, RssNotificationBroadcastReceiver::class.java)
+    intent.action = ACTION_MARK_AS_NOTIFIED
+
+    val ids = LongArray(feedItems.size, { i ->  feedItems[i].id })
+    intent.putExtra(EXTRA_FEEDITEM_ID_ARRAY, ids)
+
+    return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 }
 
 private fun notificationBuilder(context: Context): NotificationCompat.Builder {

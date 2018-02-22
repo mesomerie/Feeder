@@ -119,6 +119,8 @@
           android:name="android.accounts.AccountAuthenticator"
           android:resource="@xml/authenticator"/>
     </service>
+    <!-- Receiver for notification cancellations and such -->
+    <receiver android:name=".model.RssNotificationBroadcastReceiver" />
 
     <activity
         android:name=".ui.SettingsActivity"

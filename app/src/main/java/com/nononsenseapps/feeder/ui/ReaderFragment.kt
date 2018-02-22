@@ -54,7 +54,7 @@ import com.nononsenseapps.feeder.util.PrefUtils
 import com.nononsenseapps.feeder.util.TabletUtils
 import com.nononsenseapps.feeder.util.asFeedItem
 import com.nononsenseapps.feeder.util.firstOrNull
-import com.nononsenseapps.feeder.util.markItemAsRead
+import com.nononsenseapps.feeder.util.markItemAsReadAndNotified
 import com.nononsenseapps.feeder.util.sloppyLinkToStrictURL
 import com.nononsenseapps.feeder.views.ObservableScrollView
 import kotlinx.coroutines.experimental.launch
@@ -103,7 +103,7 @@ class ReaderFragment : Fragment(), LoaderManager.LoaderCallbacks<Any?> {
             val contentResolver = context?.contentResolver
             if (contentResolver != null) {
                 launch(Background) {
-                    contentResolver.markItemAsRead(itemId)
+                    contentResolver.markItemAsReadAndNotified(itemId)
                 }
             }
             loaderManager.restartLoader(ITEM_LOADER, Bundle(), this)
