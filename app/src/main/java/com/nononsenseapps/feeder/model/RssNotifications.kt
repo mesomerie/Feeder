@@ -25,9 +25,11 @@ import com.nononsenseapps.feeder.db.COL_UNREAD
 import com.nononsenseapps.feeder.db.FeedItemSQL
 import com.nononsenseapps.feeder.db.URI_FEEDITEMS
 import com.nononsenseapps.feeder.db.URI_FEEDS
+import com.nononsenseapps.feeder.ui.ARG_FEED_URL
 import com.nononsenseapps.feeder.ui.EXTRA_FEEDITEMS_TO_MARK_AS_NOTIFIED
 import com.nononsenseapps.feeder.ui.FeedActivity
 import com.nononsenseapps.feeder.ui.ReaderActivity
+import com.nononsenseapps.feeder.util.ARG_FEEDTITLE
 import com.nononsenseapps.feeder.util.getFeedItems
 import com.nononsenseapps.feeder.util.getFeeds
 import com.nononsenseapps.feeder.util.notificationManager
@@ -113,6 +115,7 @@ private fun singleNotification(context: Context, item: FeedItemSQL): Notificatio
 
     val contentIntent = when (item.description.isBlank()) {
         true -> {
+            // TODO make use of ArticleTextExtractor here when available
             val i = Intent(context, FeedActivity::class.java)
             i.data = Uri.withAppendedPath(URI_FEEDS, "${item.feedid}")
             i.flags = FLAG_ACTIVITY_CLEAR_TASK or FLAG_ACTIVITY_NEW_TASK
@@ -127,6 +130,13 @@ private fun singleNotification(context: Context, item: FeedItemSQL): Notificatio
             // Add the parent of the specified activity - as stated in the manifest
             stackBuilder.addParentStack(ReaderActivity::class.java)
             stackBuilder.addNextIntent(i)
+            // Now, modify the parent intent so that it navigates to the appropriate feed
+            val parentIntent = stackBuilder.editIntentAt(0)
+            if (parentIntent != null) {
+                parentIntent.data = Uri.withAppendedPath(URI_FEEDS, "${item.feedid}")
+                parentIntent.putExtra(ARG_FEEDTITLE, item.feedtitle)
+                parentIntent.putExtra(ARG_FEED_URL, item.feedUrl)
+            }
             stackBuilder.getPendingIntent(item.id.toInt(), PendingIntent.FLAG_UPDATE_CURRENT)
         }
     }
@@ -169,6 +179,15 @@ private fun inboxNotification(context: Context, feedItems: List<FeedItemSQL>): N
 
     val intent = Intent(context, FeedActivity::class.java)
     intent.putExtra(EXTRA_FEEDITEMS_TO_MARK_AS_NOTIFIED, LongArray(feedItems.size, { i -> feedItems[i].id }))
+
+    // We can be a little bit smart - if all items are from the same feed then go to that feed
+    // Otherwise we should go to All feeds
+    val feedIds = feedItems.map { it.feedid }.toSet()
+    intent.data = if (feedIds.toSet().size == 1) {
+        Uri.withAppendedPath(URI_FEEDS, "${feedIds.first()}")
+    } else {
+        Uri.withAppendedPath(URI_FEEDS, "-1")
+    }
 
     val builder = notificationBuilder(context)
 
