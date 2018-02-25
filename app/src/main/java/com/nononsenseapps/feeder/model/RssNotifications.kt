@@ -76,6 +76,15 @@ fun notifyInBackground(context: Context) {
     }
 }
 
+fun cancelNotificationInBackground(context: Context, feedItemId: Long) {
+    val appContext = context.applicationContext
+    launch(Background) {
+        val nm = appContext.notificationManager
+        nm.cancel(feedItemId.toInt())
+        // TODO handle inbox notification here when other problems are solved
+    }
+}
+
 /**
  * This is an update operation if channel already exists so it's safe to call multiple times
  */
