@@ -52,6 +52,8 @@ fun notifyInBackground(context: Context) {
             emptyList()
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N || feedItems.size < 4) {
+                // Cancel inbox notification if present
+                nm.cancel(notificationId)
                 // Platform automatically bundles 4 or more notifications
                 feedItems.map {
                     it.id.toInt() to singleNotification(appContext, it)
@@ -66,13 +68,10 @@ fun notifyInBackground(context: Context) {
             }
         }
 
-        if (notifications.isEmpty()) {
-            nm.cancel(notificationId)
-        } else {
-            notifications.forEach { (id, notification) ->
-                nm.notify(id, notification)
-            }
+        notifications.forEach { (id, notification) ->
+            nm.notify(id, notification)
         }
+
     }
 }
 
@@ -81,7 +80,10 @@ fun cancelNotificationInBackground(context: Context, feedItemId: Long) {
     launch(Background) {
         val nm = appContext.notificationManager
         nm.cancel(feedItemId.toInt())
-        // TODO handle inbox notification here when other problems are solved
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            notifyInBackground(appContext)
+        }
     }
 }
 
