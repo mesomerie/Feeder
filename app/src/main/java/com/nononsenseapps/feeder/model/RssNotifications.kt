@@ -134,7 +134,7 @@ private fun singleNotification(context: Context, item: FeedItemSQL): Notificatio
     builder.setContentText(text)
             .setContentTitle(title)
             .setContentIntent(contentIntent)
-            .setDeleteIntent(getDeleteIntent(context, listOf(item)))
+            .setDeleteIntent(getDeleteIntent(context, item))
             .setNumber(1)
 
     if (item.enclosurelink != null) {
@@ -186,6 +186,16 @@ private fun getDeleteIntent(context: Context, feedItems: List<FeedItemSQL>): Pen
     intent.action = ACTION_MARK_AS_NOTIFIED
 
     val ids = LongArray(feedItems.size, { i -> feedItems[i].id })
+    intent.putExtra(EXTRA_FEEDITEM_ID_ARRAY, ids)
+
+    return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+}
+
+private fun getDeleteIntent(context: Context, feedItem: FeedItemSQL): PendingIntent {
+    val intent = Intent(context, RssNotificationBroadcastReceiver::class.java)
+    intent.action = ACTION_MARK_AS_NOTIFIED
+    intent.data = Uri.withAppendedPath(URI_FEEDITEMS, "$feedItem.id")
+    val ids: LongArray = longArrayOf(feedItem.id)
     intent.putExtra(EXTRA_FEEDITEM_ID_ARRAY, ids)
 
     return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
