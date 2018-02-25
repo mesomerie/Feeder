@@ -14,9 +14,10 @@ const val EXTRA_FEEDITEM_ID_ARRAY: String = "extra_feeditem_id_array"
 
 class RssNotificationBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d("RssNotificationReceiver", "onReceive: ${intent.action}")
+        val ids = intent.getLongArrayExtra(EXTRA_FEEDITEM_ID_ARRAY)
+        Log.d("RssNotificationReceiver", "onReceive: ${intent.action}; ${ids?.joinToString(", ")}")
         when (intent.action) {
-            ACTION_MARK_AS_NOTIFIED -> markAsNotified(context, intent.getLongArrayExtra(EXTRA_FEEDITEM_ID_ARRAY))
+            ACTION_MARK_AS_NOTIFIED -> markAsNotified(context, ids)
         }
     }
 }
