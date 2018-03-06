@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.MenuItem
 import android.view.View
+import android.widget.ProgressBar
 import com.nononsenseapps.feeder.R
 import com.nononsenseapps.feeder.db.FeedItemSQL
 import com.nononsenseapps.feeder.views.DrawShadowFrameLayout
@@ -19,6 +20,7 @@ class ReaderActivity : BaseActivity() {
     private var mTitle: CharSequence? = null
     private var mFragment: Fragment? = null
     private var mDrawShadowFrameLayout: DrawShadowFrameLayout? = null
+    lateinit var progressBar: ProgressBar
 
     /**
      * Initializes a fragment based on intent information
@@ -36,6 +38,7 @@ class ReaderActivity : BaseActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reader)
+        progressBar = findViewById(R.id.progressBar)!!
         initializeActionBar()
         val ab = supportActionBar
         if (ab != null) {
